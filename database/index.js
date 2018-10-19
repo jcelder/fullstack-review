@@ -48,5 +48,11 @@ let save = (repo) => {
   });
 };
 
+let getTop25ByCategory = (category) => {
+  return Repo.find({})
+    .limit(25)
+    .sort({[category]: -1})
+}
 
 module.exports.save = save;
+module.exports.getByCategory = getTop25ByCategory;

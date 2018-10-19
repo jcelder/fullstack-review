@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const getReposByUsername = require('../helpers/github.js').getReposByUsername
-const saveRepo = require('../database/index.js').save
+const db = require('../database/index.js')
 let app = express();
 
 app.use(express.static(__dirname + '/../client/dist'));
@@ -19,7 +19,7 @@ app.post('/repos', function (req, res) {
     .then((repos) => {
       let promiseArr = []
       for (let repo of repos) {
-        promiseArr.push(saveRepo(repo))
+        promiseArr.push(db.save(repo))
       }
       return Promise.all(promiseArr)
     })
@@ -36,6 +36,15 @@ app.post('/repos', function (req, res) {
 app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
+
+  db.getByCategory(req.query.category)
+    .then((repos) => {
+      res.json(repos)
+    })
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(400)
+    })
 });
 
 let port = 1128;
