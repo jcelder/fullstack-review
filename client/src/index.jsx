@@ -13,10 +13,48 @@ class App extends React.Component {
 
   }
 
-  search (term) {
-    console.log(`${term} was searched`);
-    // TODO
+  componentDidMount() {
+    fetch(`${document.URL}repos?category=size`)
+      .then((response) => {
+        return response.json()
+      })
+      .then((json) => {
+        console.log(json)
+        this.setState({
+          repos: json
+        })
+      })
   }
+
+  fetchTopRepos() {
+    fetch(`${document.URL}repos?category=size`)
+    .then((response) => {
+      return response.json()
+    })
+    .then((json) => {
+      console.log(json)
+      this.setState({
+        repos: json
+      })
+    })
+  }
+
+  search (term) {
+    fetch(`${document.URL}repos`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({username: term})
+    })
+    .then((response) => {
+      console.log(`${term} was searched`, response.status);
+      this.fetchTopRepos();
+    })
+    .catch((err) => {
+      console.log(`${term} was not searched`, err)
+    })
+  } 
 
   render () {
     return (<div>
