@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
 const getReposByUsername = require('../helpers/github.js').getReposByUsername
 const db = require('../database/index.js')
 let app = express();
@@ -7,6 +8,8 @@ let app = express();
 app.use(express.static(__dirname + '/../client/dist'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(morgan('dev'));
+
 
 app.post('/repos', function (req, res) {
   // TODO - your code here!
