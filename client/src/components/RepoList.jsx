@@ -6,7 +6,7 @@ const RepoList = (props) => (
     <h4> Repo List Component </h4>
     There are {props.repos.length} repos.
     <ul>
-      {props.repos.map(repo => <RepoListItem repo={repo} />)}
+      {props.repos.map(repo => <RepoListItem repo={repo} key={repo.id} />)}
     </ul>
   </div>
 )

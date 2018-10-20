@@ -14,16 +14,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`${document.URL}repos?category=size`)
-      .then((response) => {
-        return response.json()
-      })
-      .then((json) => {
-        console.log(json)
-        this.setState({
-          repos: json
-        })
-      })
+    this.fetchTopRepos();
   }
 
   fetchTopRepos() {
