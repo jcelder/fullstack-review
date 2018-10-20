@@ -1,5 +1,5 @@
 const request = require('request-promise');
-const config = require('../config.js');
+
 
 let getReposByUsername = (username, callback) => {
   // TODO - Use the request module to request repos for a specific
@@ -11,7 +11,7 @@ let getReposByUsername = (username, callback) => {
     url: `https://api.github.com/users/${username}/repos`,
     headers: {
       'User-Agent': 'request-promise',
-      'Authorization': `token ${config.TOKEN}`,
+      'Authorization': `token ${process.env.GITHUB_TOKEN}`,
       'Accept': 'application/vnd.github.v3+json'
     },
     JSON: true

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Promise = require('bluebird');
-mongoose.connect('mongodb://localhost/fetcher');
+const mongoString = process.env.MONGODB_URI || 'mongodb://localhost/fetcher';
+mongoose.connect(mongoString);
 
 let repoSchema = mongoose.Schema({
   id: {
@@ -34,13 +35,15 @@ let save = (repo) => {
     watchers: repo.watchers
   };
 
-  var newRepo = new Repo(trimmedRepoObject);
+  var repoInstance = new Repo(trimmedRepoObject);
   return new Promise((resolve, reject) => {
-    newRepo.save((err, newRepo) => {
-      if (err && err.code !== 11000) {
+    repoInstance.save((err, newRepo) => {
+      if (err) {
+        if (err.code === 11000) {
+          resolve('Record already exists');
+        }
+        console.log(err)
         reject(err);
-      } else if (err.code === 11000) {
-        resolve('Record already exists');
       } else {
         resolve(newRepo);
       }

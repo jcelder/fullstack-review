@@ -50,7 +50,7 @@ app.get('/repos', function (req, res) {
     })
 });
 
-let port = 1128;
+let port = process.env.port || 1128;
 
 app.listen(port, function() {
   console.log(`listening on port ${port}`);
